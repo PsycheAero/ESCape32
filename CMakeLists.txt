@@ -45,6 +45,4 @@ function(add_target name mcu)
 	add_custom_target(flash-${name} COMMAND st-flash --reset --connect-under-reset --format ihex write ${hex} DEPENDS ${hex})
 endfunction()
 
-add_subdirectory(boot)
-
 add_target(PSYCHE STM32G071 DEAD_TIME=50 COMP_MAP=123 SENS_MAP=0xA6A4 VOLT_MUL=2100 CURR_MUL=100 LED_WS2812)

@@ -1,4 +1,0 @@
-
-add_target(BOOT2_PA2 STM32G0 IO_PA2)
-add_target(BOOT2_PA6 STM32G0 IO_PA6)
-add_target(BOOT2_PB4 STM32G0)
