@@ -1,11 +1,9 @@
-ESCape32
-========
+# ESCape32
 
 Firmware for 32-bit BLDC motor electronic speed controllers that aims for simplicity. It is designed to deliver smooth and efficient motor drive, fast transitions from a complete stop to full throttle, robust direction reversals, and maximum hardware support.
 
 
-Features
---------
+## Features
 
 + Servo PWM, Oneshot125, automatic throttle calibration
 + DSHOT 300/600/1200, bidirectional DSHOT, extended telemetry
@@ -19,54 +17,53 @@ Features
 + Customizable startup music
 
 
-Installation
-------------
+## Installation
 
-The list of compatible ESCs can be found [here](https://github.com/neoxic/ESCape32/wiki/Targets).
+Follow the steps below to set up and compile the project.
 
-The latest release can be downloaded [here](https://github.com/neoxic/ESCape32/releases).
+### 1. Create the Docker Image
 
-Visit the [ESCape32 Wiki](https://github.com/neoxic/ESCape32/wiki) for more information.
+Start by cloning the repository and building the Docker image:
 
-
-Dependencies
-------------
-
-+ cmake
-+ arm-none-eabi-gcc
-+ arm-none-eabi-binutils
-+ arm-none-eabi-newlib
-+ libopencm3
-+ stlink
-
-
-Building from source
---------------------
-
-Use `LIBOPENCM3_DIR` to specify a path to LibOpenCM3 if it is not in the system root:
-
+```bash
+git clone -b dev https://github.com/PsycheAero/ESCape32.git
+cd ESCape32
+docker build -t psyche-esc .
 ```
-git clone https://github.com/libopencm3/libopencm3.git
+Next, run the Docker container, linking the cloned volume:
+
+```bash
+docker run -it -v $(pwd):/ESCape32 --name escape32 psyche-esc
+```
+
+### 2. Build the Libraries
+
+Once you are inside the Docker container, execute the following commands to build the required libraries:
+
+```bash
+cd ESCape32
 make -C libopencm3 TARGETS='stm32/g0'
 cmake -B build -D LIBOPENCM3_DIR=libopencm3
 ```
 
-Use `CMAKE_INSTALL_PREFIX` to specify an alternative system root:
+### 3. Compile the Project
 
-```
-cmake -B build -D CMAKE_INSTALL_PREFIX=~/local
-```
+Compile the project by running:
 
-To build all targets, run:
-
-```
-cmake -B build
-cd build
-make
+```bash
+make -C build
 ```
 
-To flash a particular target using an ST-LINK programmer, run:
+### 4. Flash the Firmware
 
+Open a new terminal window outside the Docker container and ensure that the ST-Link board is properly connected:
+
+```bash
+st-info --probe
 ```
-make flash-<target>
+
+Finally, flash the firmware to your device using the following command:
+
+```bash
+st-flash write PSYCHE-rev11.hex 0x8000000
 ```
