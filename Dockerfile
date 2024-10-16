@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Sao_Paulo
 
 # Install required dependencies
-RUN apt update && apt upgrade -y && apt install -y git nano python3 gcc-arm-none-eabi build-essential stlink-tools
+RUN apt update && apt upgrade -y && apt install -y git nano python3 cmake gcc-arm-none-eabi build-essential stlink-tools
 
 # Clone the branch dev of the ESCape32 repository
 RUN git clone -b dev https://github.com/lucasgmx/ESCape32.git
